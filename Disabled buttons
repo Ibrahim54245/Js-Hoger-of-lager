@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dobbelsteen Spel</title>
+</head>
+<body>
+
+    <button id="gooiDobbelstenen" disabled>Gooi dobbelstenen</button>
+    <button id="hoger" disabled>Hoger</button>
+    <button id="lager" disabled>Lager</button>
+    <button id="go">Go</button>
+
+    <div id="winner" style="margin-top: 20px;"></div>
+
+    <script>
+        let creditsSpeler = 10; 
+
+        const gooiDobbelstenenBtn = document.querySelector('#gooiDobbelstenen');
+        const hogerBtn = document.querySelector('#hoger');
+        const lagerBtn = document.querySelector('#lager');
+        const goBtn = document.querySelector('#go');
+        const winnerDiv = document.querySelector('#winner');
+
+        function initKnoppen() {
+            gooiDobbelstenenBtn.disabled = true;
+            hogerBtn.disabled = true;
+            lagerBtn.disabled = true;
+            goBtn.disabled = false;
+        }
+
+        goBtn.addEventListener('click', function() {
+            goBtn.disabled = true;
+            gooiDobbelstenenBtn.disabled = true;
+            hogerBtn.disabled = false;
+            lagerBtn.disabled = false;
+
+            const computerResultaat = Math.floor(Math.random() * 6) + 1;
+            console.log('De computer gooit: ' + computerResultaat);
+            gooiDobbelstenenBtn.dataset.resultaat = computerResultaat;
+        });
+
+        hogerBtn.addEventListener('click', function() {
+            hogerBtn.disabled = true;
+            lagerBtn.disabled = true;
+            gooiDobbelstenenBtn.disabled = false;
+
+            const spelerResultaat = Math.floor(Math.random() * 6) + 1;
+            const computerResultaat = parseInt(gooiDobbelstenenBtn.dataset.resultaat);
+            winnerDiv.innerHTML = spelerResultaat > computerResultaat ? "Je hebt gewonnen!" : "Je hebt verloren!";
+            checkCredits();
+        });
+
+        lagerBtn.addEventListener('click', function() {
+            hogerBtn.disabled = true;
+            lagerBtn.disabled = true;
+            gooiDobbelstenenBtn.disabled = false;
+
+            const spelerResultaat = Math.floor(Math.random() * 6) + 1;
+            const computerResultaat = parseInt(gooiDobbelstenenBtn.dataset.resultaat);
+            winnerDiv.innerHTML = spelerResultaat < computerResultaat ? "Je hebt gewonnen!" : "Je hebt verloren!";
+            checkCredits();
+        });
+
+        function checkCredits() {
+            if (creditsSpeler > 0) {
+                goBtn.disabled = false;
+            }
+        }
+
+        initKnoppen();
+    </script>
+
+</body>
+</html>
